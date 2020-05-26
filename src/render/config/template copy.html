@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .template {
+            position: relative;
+        }
+
+        .layer {
+            position: absolute;
+            white-space:nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="template" style="width: <%= width %>px; height: <%= height %>px;">
+
+    </div>
+    <script>
+
+        window.onload = function() {
+            const templateDom = document.querySelector(".template")
+            const layers = JSON.parse('<%= JSON.stringify(layers) %>')
+            console.log(layers)
+            layers.forEach(item => {
+                const dom = document.createElement('div')
+                dom.className = "layer"
+                Object.assign(dom.style, item.style)
+                dom.style.top = item.style.top + 'px'
+                dom.style.bottom = item.style.bottom + 'px'
+                dom.style.left = item.style.left + 'px'
+                dom.style.right = item.style.right + 'px'
+                dom.style.width = item.style.width + 'px'
+                dom.style.height = item.style.height + 'px'
+                if(item.type === "image") {
+                    const img = document.createElement('img')
+                    img.style.width = "100%"
+                    img.style.height = "100%"
+
+                    const arrayBuffer = new Uint8ClampedArray(item.imageData)
+                    const canvas = document.createElement('canvas')
+                    canvas.width = '<%= width %>px'
+                    canvas.height = '<%= height %>px'
+                    const ctx = canvas.getContext('2d')
+                    const imageData = ctx.createImageData(item.style.width, item.style.height)
+                    for(let i = 0; i < arrayBuffer.length; i ++) {
+                        imageData.data[i] = arrayBuffer[i]
+                    }
+                    img.src = canvas.toDataURL()
+                    dom.appendChild(img)
+                } else {
+                    dom.innerText = item.value
+                }
+                templateDom.appendChild(dom)
+            });
+        }
+    </script>
+</body>
+</html>
