@@ -39,7 +39,7 @@ export default class Render {
         fs.writeFileSync(tempPath, file)
         await page.goto("file://" + tempPath)
         await page.screenshot({ path: tempImagePath })
-        // fs.unlinkSync(tempPath)
+        fs.unlinkSync(tempPath)
         await browser.close()
     }
 }
