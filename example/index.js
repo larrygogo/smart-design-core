@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const {Parser, Render} = require('../build/main.bundle')
+const {Parser, Render} = require('../index')
 const _ = require('lodash')
 const file = path.resolve(__dirname, './static/test.psd')
 const parser = new Parser(file, {
@@ -14,16 +14,17 @@ const render = new Render(template, {
             textAlign: "center"
         },
         sub: {
-            value: "222",
-            textAlign: "left"
+            value: "这是一段很长的测试文案",
+            textAlign: "center"
         },
         action: {
-            value: "3333",
-            textAlign: "right"
+            value: "这是一段很长的测试文案",
+            textAlign: "center"
         }
     },
     savePath: path.join(__dirname, "static"),
-    saveName: "test"
+    saveName: "test",
+    debug: true
 })
 
 render.run(__dirname)

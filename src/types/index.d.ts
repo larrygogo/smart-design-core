@@ -9,6 +9,7 @@ interface RenderOptions {
     text: RenderTexts
     savePath: string
     saveName: string
+    debug: boolean
 }
 
 interface RenderTexts {
@@ -47,13 +48,14 @@ interface LayerStyle {
     zIndex: number
     color?: string
     opacity?: string
-    fontSize?: string
+    fontSize?: number
+    textAlign?: string
     fontStyle?: string
     fontWeight?: string
     fontFamily?: string
-    lineHeight?: string
+    lineHeight?: number
     marginLeft?: string
-    letterSpacing?: string
+    letterSpacing?: number
     textDecoration?: string
 }
 

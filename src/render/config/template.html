@@ -17,29 +17,14 @@
         .layer {
             position: absolute;   
         }
-
-        .text-layer {
-            white-space:nowrap;
-            margin-left: -100%;
-            margin-right: -100%;
-        }
-
-        .text-layer:before {
-            content: "";
-            margin-left: -100%;
-        }
-
-        .text-layer:after {
-            content: "";
-            margin-right: -100%;
-        }
     </style>
 </head>
 <body>
     <div class="template" style="width: <%= width %>px; height: <%= height %>px;">
         <% _.each(layers, function(item) {
             if(item.type === "text") { %>
-        <div class="layer text-layer" style="top: <%= item.style.top %>px; bottom: <%= item.style.bottom %>px; left: <%= item.style.left %>px; right: <%= item.style.right %>px; width: <%= item.style.width %>px; height: <%= item.style.height %>px; z-index: <%= item.style.zIndex %>; color: <%= item.style.color %>; opacity: <%= item.style.opacity %>; font-size: <%= item.style.fontSize %>; font-style: <%= item.style.fontStyle %>; font-weight: <%= item.style.fontWeight %>; font-family: <%= item.style.fontFamily %>; line-height: <%= item.style.lineHeight %>; margin-left: <%= item.style.marginLeft %>; letter-spacing: <%= item.style.letterSpacing %>; text-decoration: <%= item.style.textDecoration %>; text-align: <%= item.name === 'text_main' ? options.text.main.textAlign : item.name === 'text_sub' ? options.text.sub.textAlign : item.name === 'text_action' ? options.text.action.textAlign : 'left' %>">
+        <div class="layer" 
+            style="top: <%= item.style.top %>px; bottom: <%= item.style.bottom %>px; left: <%= item.style.left %>px; right: <%= item.style.right %>px; width: <%= item.style.width %>px; height: <%= item.style.height %>px; z-index: <%= item.style.zIndex %>; color: <%= item.style.color %>; opacity: <%= item.style.opacity %>; font-size: <%= item.style.fontSize %>px; font-style: <%= item.style.fontStyle %>; font-weight: <%= item.style.fontWeight %>; font-family: '<%= item.style.fontFamily %>'; line-height: <%= item.style.lineHeight %>px; margin-left: <%= item.style.marginLeft %>; letter-spacing: <%= item.style.letterSpacing %>px; text-decoration: <%= item.style.textDecoration %>; text-align: <%= item.name === 'text_main' ? options.text.main.textAlign : item.name === 'text_sub' ? options.text.sub.textAlign : item.name === 'text_action' ? options.text.action.textAlign : 'left' %>">
             <%= item.name === "text_main" ? options.text.main.value 
                 : item.name === "text_sub" ? options.text.sub.value
                 : item.name === "text_action" ? options.text.action.value : "" %>

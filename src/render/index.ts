@@ -1,6 +1,7 @@
 import fs from 'fs'
 import _ from 'lodash'
 import path from 'path'
+import { renderText } from './lib'
 
 
 
@@ -20,8 +21,8 @@ export default class Render {
         const PCR = require("puppeteer-chromium-resolver")
         const pcr = await PCR();
         const browser = await pcr.puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox'],
+            headless: false,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
             executablePath: pcr.executablePath
         }).catch(function (error: any) {
             console.log(error);
@@ -35,11 +36,21 @@ export default class Render {
         const template = _.template(fileString.toString("utf8"))
         const tempPath = path.join(this.options.savePath, this.options.saveName + '.html')
         const tempImagePath = path.join(this.options.savePath, this.options.saveName + '.png')
-        const file = template({...this.template, options: this.options})
+        const file = template({...this.renderLayer(), options: this.options})
         fs.writeFileSync(tempPath, file)
         await page.goto("file://" + tempPath)
+        await page.content();
         await page.screenshot({ path: tempImagePath })
-        fs.unlinkSync(tempPath)
+        if(!this.options.debug) {
+            fs.unlinkSync(tempPath)
+        }
+        await page.close();
         await browser.close()
+    }
+
+    renderLayer(): TemplateData {
+        let template = _.cloneDeep(this.template)
+        renderText(template, this.options.text)
+        return template
     }
 }
