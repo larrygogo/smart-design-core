@@ -26,7 +26,6 @@ interface RenderText {
 interface LayerData {
     name: string
     type: string
-    category: string
     style: LayerStyle
     value?: string
     imageData?: Array<number> | string
@@ -40,12 +39,9 @@ interface TemplateData {
 
 interface LayerStyle {
     left: number
-    right: number
     top: number
-    bottom: number
     width: number
     height: number
-    zIndex: number
     color?: string
     opacity?: string
     fontSize?: number

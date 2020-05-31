@@ -8,13 +8,13 @@ function setTextStyle(layer: LayerData, text: RenderText): LayerData {
         const letterSpacing = _.isNumber(layer.style.letterSpacing) ? layer.style.letterSpacing : 0
         layer.style.width = text.value.length * (layer.style.fontSize + letterSpacing)
     }
-    if(layer.style.textAlign === "center") {
-        layer.style.left += (width - layer.style.width) / 2
-        layer.style.right -= (width - layer.style.width) / 2
-    } else if(layer.style.textAlign === "right"){
-        layer.style.left += (width - layer.style.width)
-        layer.style.right -= (width - layer.style.width)
-    }
+    // if(layer.style.textAlign === "center") {
+    //     layer.style.left += (width - layer.style.width) / 2
+    //     layer.style.right -= (width - layer.style.width) / 2
+    // } else if(layer.style.textAlign === "right"){
+    //     layer.style.left += (width - layer.style.width)
+    //     layer.style.right -= (width - layer.style.width)
+    // }
     return layer
 }
 
