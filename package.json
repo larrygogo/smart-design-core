@@ -1,6 +1,6 @@
 {
   "name": "smart-design-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "\"Smart-Design 核心组件\"",
   "main": "index.js",
   "scripts": {
@@ -42,11 +42,9 @@
   "dependencies": {
     "@types/btoa": "^1.2.3",
     "@types/lodash": "^4.14.152",
-    "canvas": "^2.6.1",
     "file-loader": "^6.0.0",
     "lodash": "^4.17.15",
     "psd": "^3.2.0",
-    "psd-parser": "^0.1.6",
     "puppeteer-chromium-resolver": "^3.2.0"
   }
 }

@@ -24,19 +24,32 @@
         <% _.each(layers, function(item) {
             if(item.type === "text") { %>
         <div class="layer" 
-            style="top: <%= item.style.top %>px; bottom: <%= item.style.bottom %>px; left: <%= item.style.left %>px; right: <%= item.style.right %>px; width: <%= item.style.width %>px; height: <%= item.style.height %>px; z-index: <%= item.style.zIndex %>; color: <%= item.style.color %>; opacity: <%= item.style.opacity %>; font-size: <%= item.style.fontSize %>px; font-style: <%= item.style.fontStyle %>; font-weight: <%= item.style.fontWeight %>; font-family: '<%= item.style.fontFamily %>'; line-height: <%= item.style.lineHeight %>px; margin-left: <%= item.style.marginLeft %>; letter-spacing: <%= item.style.letterSpacing %>px; text-decoration: <%= item.style.textDecoration %>; text-align: <%= item.name === 'text_main' ? options.text.main.textAlign : item.name === 'text_sub' ? options.text.sub.textAlign : item.name === 'text_action' ? options.text.action.textAlign : 'left' %>">
-            <%= item.name === "text_main" ? options.text.main.value 
-                : item.name === "text_sub" ? options.text.sub.value
-                : item.name === "text_action" ? options.text.action.value : "" %>
-            
+            style="top: <%= item.style.top %>px;
+                left: <%= item.style.left %>px;
+                width: <%= item.style.width %>px;
+                color: <%= item.style.color %>;
+                font-size: <%= item.style.fontSize %>px;
+                font-family: <%= item.style.fontFamily %>;
+                font-weight: <%= item.style.fontWeight %>;
+                text-align: <%= item.style.textAlign %>;
+                line-height: <%= item.style.lineHeight %>;
+                letter-spacing: <%= item.style.letterSpacing %>px;">
+            <div class="text-area" style="opacity: <%= item.style.opacity %>;">
+                <span><%= item.value %></span>
+            </div>
         </div>
             <% } else { %>
-                <div class="layer" style="top: <%= item.style.top %>px; bottom: <%= item.style.bottom %>px; left: <%= item.style.left %>px; right: <%= item.style.right %>px; width: <%= item.style.width %>px; height: <%= item.style.height %>px; z-index: <%= item.style.zIndex %>;">
-                    <img src="<%= item.imageData %>" style="width: 100%; height: 100%">
-                </div>
-            
+        <div class="layer" 
+            style="top: <%= item.style.top %>px;
+                left: <%= item.style.left %>px;
+                width: <%= item.style.width %>px;
+                height: <%= item.style.height %>px;">
+            <div class="image-area" 
+                style="opacity: <%= item.style.opacity %>;">
+                <img src="<%= item.image %>" />
+            </div>
+        </div>
             <% }
-            
         })%>
     </div>
 </body>

@@ -1,7 +1,6 @@
 import fs from 'fs'
 import _ from 'lodash'
 import path from 'path'
-import { renderText } from './lib'
 
 
 
@@ -36,7 +35,7 @@ export default class Render {
         const template = _.template(fileString.toString("utf8"))
         const tempPath = path.join(this.options.savePath, this.options.saveName + '.html')
         const tempImagePath = path.join(this.options.savePath, this.options.saveName + '.png')
-        const file = template({...this.renderLayer(), options: this.options})
+        const file = template(this.template)
         fs.writeFileSync(tempPath, file)
         await page.goto("file://" + tempPath)
         await page.content();
@@ -46,11 +45,5 @@ export default class Render {
         }
         await page.close();
         await browser.close()
-    }
-
-    renderLayer(): TemplateData {
-        let template = _.cloneDeep(this.template)
-        renderText(template, this.options.text)
-        return template
     }
 }

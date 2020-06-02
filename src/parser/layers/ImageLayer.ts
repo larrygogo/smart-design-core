@@ -1,25 +1,60 @@
+import fs from 'fs'
 import Layer from "../base/Layer";
-import { createCanvas, createImageData } from 'canvas'
 
 export default class ImageLayer extends Layer {
-    public imageData: number[] | string = []
+    public image: any = ""
+    public imageData: any
 
-    constructor(layerNode: NodeTree, imageMode: imageMode = "array") {
-        super(layerNode)
-        // const array = layerNode.parseImageData()
-        // if(imageMode === "base64") {
-        //     // const arrayBuffer = Buffer.from(array)
-        //     // console.log(arrayBuffer)
-        //     // this.imageData = 'data:image/png;base64,' + arrayBuffer.toString("base64")
-        //     console.log()
-        //     const arrayBuffer = new Uint8ClampedArray(array)     
-        //     const canvas = createCanvas(layerNode.width, layerNode.height)
-        //     const ctx = canvas.getContext('2d')
-        //     const imageData = createImageData(arrayBuffer, layerNode.width, layerNode.height)
-        //     ctx.putImageData(imageData, 0, 0)
-        //     this.imageData = canvas.toDataURL()
-        // } else {
-        //     this.imageData = array
-        // }
+    constructor(node: any, imageMode: imageMode = "array") {
+        super(node)
+        this.imageData = node.layer.image.toPng()
+    }
+
+    private streamToBuffer() {
+        const image = this.imageData
+        return new Promise((resolve, reject) => {
+            const chunks: any[] = [];
+
+            image.pack();  // [1]
+            image.on('data', (chunk: any) => {
+                chunks.push(chunk);  // [2]
+            });
+            image.on('end', () => {
+                resolve(Buffer.concat(chunks));  // [3]
+            });
+            image.on('error', (err: any) => {
+                reject(err);
+            });
+        });
+    }
+
+    public  toBase64() {
+        return new Promise((resolve, reject) => {
+            this.streamToBuffer().then((buffer: any) => {
+                resolve(`data:image/png;base64,${buffer.toString('base64')}`)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
+    public setImage(image: any) {
+        this.image = image
+    }
+
+    public async saveAsPng(path: string) {
+        return new Promise((resolve, reject) => {
+            this.streamToBuffer().then((buffer: any) => {
+                fs.writeFile(path, buffer, err => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve()
+                    }
+                })
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 }

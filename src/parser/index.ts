@@ -1,62 +1,66 @@
+import fs from 'fs'
 import psdParser from 'psd'
 import Template from './base/Template'
-import Layer from './base/Layer'
 import TextLayer from './layers/TextLayer'
 import ImageLayer from './layers/ImageLayer'
 import { ParserOptions } from 'webpack'
 
 export default class Parser {
-    public nodes: Array<NodeTree> = []
+    public cover: any = null
+    public nodes: Array<any> = []
     public options: ParserOptions | undefined
     public layers: Array<LayerData> = []
-    // public template: Template
+    public template: Template
 
     constructor(url: string, options?: ParserOptions) {
         const psd = psdParser.fromFile(url)
         psd.parse()
+        this.cover = psd.image.toPng()
         this.nodes = psd.tree().descendants()
-        // const layers = psd.getDescendants()
-        // const {width, height} = psd._psd_.imageData
-
-        // this.psd = psd
-        // this.options = options
-        // this.template = new Template(width, height)
+        const { top, bottom, left, right } = psd.tree().coords
+        this.options = options
+        this.template = new Template(right - left, bottom - top)
         this.parseNode()
     }
 
     getTemplate() {
-        // return this.template as TemplateData
+        return this.template
     }
 
-    // saveAsPng(path: string): void {
-    //     try {
-    //         this.psd._psd_.imageData.saveAsPng(path)
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    saveAsPng(path: string) {
+        const image = this.cover
+        return new Promise((resolve, reject) => {
+            const chunks: any[] = [];
+            image.pack(); 
+            image.on('data', (chunk: any) => {
+                chunks.push(chunk);
+            });
+            image.on('end', () => {
+                const buffer = Buffer.concat(chunks)
+                fs.writeFile(path, buffer, err => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve()
+                    }
+                })
+            });
+            image.on('error', (err: any) => {
+                reject(err);
+            });
+        });
+    }
 
     private parseNode() {
         this.nodes.forEach(node => {
             const type = node.get("typeTool")
             if(type) {
                 const layer = new TextLayer(node)
+                this.template.addLayer(layer)
             } else {
-                console.log("image")
+                const layer = new ImageLayer(node)
+                this.template.addLayer(layer)
             }
-            // const layerInfo = Layer.getInfo(item.additional.luni)
-            // if (layerInfo.type && layerInfo.type === 'text') {
-            //     const layer = new TextLayer(item)
-            //     this.template.addLayer(layer as LayerData)
-            // } else if (layerInfo.type && layerInfo.type === 'image') {
-            //     let layer
-            //     if(this.options && this.options.imageMode) {
-            //         layer = new ImageLayer(item, this.options.imageMode)
-            //     } else {
-            //         layer = new ImageLayer(item, )
-            //     }
-            //     this.template.addLayer(layer as LayerData)
-            // }
         })
     }
 

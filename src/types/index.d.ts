@@ -6,21 +6,9 @@ interface ParseOptions {
 }
 
 interface RenderOptions {
-    text: RenderTexts
     savePath: string
     saveName: string
     debug: boolean
-}
-
-interface RenderTexts {
-    main: RenderText
-    sub: RenderText
-    action: RenderText
-}
-
-interface RenderText {
-    value: string
-    textAlign: textAlign
 }
 
 interface LayerData {
@@ -28,7 +16,7 @@ interface LayerData {
     type: string
     style: LayerStyle
     value?: string
-    imageData?: Array<number> | string
+    image?: any 
 }
 
 interface TemplateData {
@@ -47,19 +35,25 @@ interface LayerStyle {
     fontSize?: number
     textAlign?: string
     fontStyle?: string
-    fontWeight?: string
+    fontWeight?: string | number
     fontFamily?: string
     lineHeight?: number
-    marginLeft?: string
     letterSpacing?: number
-    textDecoration?: string
+    transform: Transform
+}
+
+interface Transform {
+    xx: number,
+    xy: number,
+    yx: number,
+    yy: number,
+    tx: number,
+    ty: number
 }
 
 interface LayerInfo {
     name: string
-    zIndex: number
     type: string
-    category: string
 }
 
 interface LayerObject {

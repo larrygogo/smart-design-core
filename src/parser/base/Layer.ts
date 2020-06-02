@@ -5,18 +5,37 @@ export default class Layer {
     public type: string = ""
     public style: LayerStyle = {} as LayerStyle
 
-    constructor(layerNode: NodeTree) {
-        this.init(layerNode)
+    constructor(node: any) {
+        this.init(node)
     }
 
-    private init(node: NodeTree): void {
-        this.name = node.get("name") as string
+    private init(node: any): void {
+        this.name = node.get("name")
         this.type = node.get("typeTool") ? 'text' : 'image'
+        
         this.style = {
-            left: node.get("left") as number,
-            top: node.get("top") as number,
-            width: node.get("width") as number,
-            height: node.get("height") as number,
+            top: node.get("top"),
+            left: node.get("left"),     
+            width: node.get("width"),
+            height: node.get("height"),
+            opacity: this.getOpacity(node),
+            transform: this.getTransform(node)
         }
+    }
+
+    private getOpacity(node: any): any {
+        return node.get("opacity") / 255;
+    }
+
+    private getTransform(node: any) {
+        const { text } = node.export()
+        if(!text) {
+            return { xx: 0, xy: 0, yx: 0, yy: 0, tx: 0, ty: 0 }
+        }
+        const { transform } = text
+        if(!transform) {
+            return { xx: 0, xy: 0, yx: 0, yy: 0, tx: 0, ty: 0 }
+        }
+        return transform
     }
 }
