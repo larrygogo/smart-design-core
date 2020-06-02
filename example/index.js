@@ -15,7 +15,7 @@ const template = parser.getTemplate()
 //     console.log(err)
 // })
 Promise.all(
-template.layers.forEach(async layer => {
+template.layers.map(async layer => {
     if(layer.type === 'image') {
         const base64 = await layer.toBase64()
         layer.setImage(base64)

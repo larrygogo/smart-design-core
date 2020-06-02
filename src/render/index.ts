@@ -20,7 +20,7 @@ export default class Render {
         const PCR = require("puppeteer-chromium-resolver")
         const pcr = await PCR();
         const browser = await pcr.puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             executablePath: pcr.executablePath
         }).catch(function (error: any) {
