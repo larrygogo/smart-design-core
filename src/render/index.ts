@@ -14,6 +14,9 @@ export default class Render {
         if(!this.options.savePath) {
             throw new Error("options.savePath must be give")
         }
+        if(!this.options.tempPath) {
+            throw new Error("options.tempPath must be give")
+        }
     }
 
     async run() {
@@ -31,7 +34,7 @@ export default class Render {
             width: this.template.width,
             height: this.template.height
         })
-        const fileString = fs.readFileSync(path.join(__dirname, "/config/template.html"))
+        const fileString = fs.readFileSync(this.options.tempPath)
         const template = _.template(fileString.toString("utf8"))
         const tempPath = path.join(this.options.savePath, this.options.saveName + '.html')
         const tempImagePath = path.join(this.options.savePath, this.options.saveName + '.png')

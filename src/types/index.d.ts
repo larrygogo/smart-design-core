@@ -8,6 +8,7 @@ interface ParseOptions {
 interface RenderOptions {
     savePath: string
     saveName: string
+    tempPath: string
     debug: boolean
 }
 

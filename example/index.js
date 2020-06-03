@@ -15,13 +15,18 @@ const template = parser.getTemplate()
 //     console.log(err)
 // })
 Promise.all(
-template.layers.map(async layer => {
+template.layers.map(async (layer, index) => {
     if(layer.type === 'image') {
-        const base64 = await layer.toBase64()
-        layer.setImage(base64)
-        delete layer.iamgeData
+        const filepath = path.join(__dirname, `static/test+${index}.png`)
+        await layer.saveAsPng(filepath)
+        layer.setImage(filepath)
+        delete layer.imageData
     }
-}))
+    return layer
+})).then(res => {
+    template.layers = res
+    console.log(template)
+})
 
 
 // template.layers[3].saveAsPng(path.join(__dirname, './static/test1.png')).then(res => {
@@ -31,7 +36,8 @@ template.layers.map(async layer => {
 // })
 const render = new Render(template, {
     savePath: path.join(__dirname, "static"),
-    saveName: "test",
+    saveName: "test1",
+    tempPath: path.join(__dirname, "static/template.html"),
     debug: true
 })
 

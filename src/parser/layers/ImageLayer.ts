@@ -49,7 +49,7 @@ export default class ImageLayer extends Layer {
                     if(err) {
                         reject(err)
                     } else {
-                        resolve()
+                        resolve(path)
                     }
                 })
             }).catch(err => {

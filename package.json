@@ -1,6 +1,6 @@
 {
   "name": "smart-design-core",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "\"Smart-Design 核心组件\"",
   "main": "index.js",
   "scripts": {

@@ -30,11 +30,11 @@ export default class Layer {
     private getTransform(node: any) {
         const { text } = node.export()
         if(!text) {
-            return { xx: 0, xy: 0, yx: 0, yy: 0, tx: 0, ty: 0 }
+            return { xx: 1, xy: 0, yx: 0, yy: 1, tx: 0, ty: 0 }
         }
         const { transform } = text
         if(!transform) {
-            return { xx: 0, xy: 0, yx: 0, yy: 0, tx: 0, ty: 0 }
+            return { xx: 1, xy: 0, yx: 0, yy: 1, tx: 0, ty: 0 }
         }
         return transform
     }
