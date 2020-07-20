@@ -43,7 +43,7 @@
     "@types/btoa": "^1.2.3",
     "@types/lodash": "^4.14.152",
     "file-loader": "^6.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "psd": "^3.2.0",
     "puppeteer-chromium-resolver": "^3.2.0"
   }
