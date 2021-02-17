@@ -13,6 +13,7 @@ export default class TextLayer extends Layer {
         this.style.textAlign = this.getTextAlign(node)
         this.style.fontFamily = this.getFontFamily(node)
         this.style.fontWeight = this.isBold(node)
+        this.style.fontStyle = this.getFontStyle(node)
         this.style.lineHeight = this.getLineHeight(node)
         this.style.letterSpacing = this.getLetterSpacing(node)
         this.resetWidth()
@@ -32,6 +33,20 @@ export default class TextLayer extends Layer {
             return fauxBold ? fauxBold[0] ? 900 : 700 : 700
         }
         return fauxBold ? fauxBold[0] ? 600 : 400 : 400
+    }
+
+    private getFontStyle(node: any){
+        const fauxBold = node.get("typeTool").styles().FauxBold
+        const { text: { font: { name } } } = node.export()
+        // PSD中的斜体是按照字体来的 //这里只简单判断了字体名中是否包含italic
+        // TODO 仿斜体
+        if (/Italic/g.test(name)){
+            return 'italic';
+        }
+        if (/Oblique/g.test(name)){
+            return 'oblique';
+        }
+        return 'normal';
     }
 
     private getColor(node: any) {
